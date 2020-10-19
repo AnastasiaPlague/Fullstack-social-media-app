@@ -4,7 +4,7 @@ const { UserInputError } = require("apollo-server");
 
 const {
   validateRegisterInput,
-  validateLoginInput
+  validateLoginInput,
 } = require("../../utils/validators");
 const User = require("../../models/User");
 const { SECRET_KEY } = require("../../config");
@@ -14,7 +14,7 @@ function generateToken(user) {
     {
       id: user.id,
       email: user.email,
-      username: user.username
+      username: user.username,
     },
     SECRET_KEY,
     { expiresIn: "1h" }
@@ -32,14 +32,14 @@ module.exports = {
       const user = await User.findOne({ username });
 
       if (!user) {
-        errors.general = "User not found";
+        errors.username = "User not found";
         throw new UserInputError("User not found", { errors });
       }
 
       const match = await bcrypt.compare(password, user.password);
 
       if (!match) {
-        errors.general = "Wrong credentials";
+        errors.password = "Wrong credentials";
         throw new UserInputError("Wrong credentials", { errors });
       }
       const token = generateToken(user);
@@ -47,7 +47,7 @@ module.exports = {
       return {
         ...user._doc,
         id: user._id,
-        token
+        token,
       };
     },
     async register(
@@ -69,8 +69,8 @@ module.exports = {
       if (user) {
         throw new UserInputError("Username is already taken", {
           errors: {
-            username: "This username is taken"
-          }
+            username: "This username is taken",
+          },
         });
       }
 
@@ -82,7 +82,7 @@ module.exports = {
         email,
         username,
         password,
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
       });
 
       const res = await newUser.save();
@@ -92,8 +92,8 @@ module.exports = {
       return {
         ...res._doc,
         id: res._id,
-        token
+        token,
       };
-    }
-  }
+    },
+  },
 };

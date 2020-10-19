@@ -19,7 +19,6 @@ const Home = () => {
           <Grid.Row>
             {data.getPosts &&
               data.getPosts.map((post) => {
-                console.log(post);
                 return (
                   <Grid.Column key={post.id} style={{ marginBotom: "20px" }}>
                     <PostCard post={post} />
