@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Card, Image, Button, Icon, Label } from "semantic-ui-react";
 import moment from "moment";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../context/auth";
+import LikeButton from "./like-button";
+import CommentsButton from "./comments-button";
+import DeleteButton from "./delete-button";
 
 const PostCard = ({
   post: { id, body, createdAt, username, likeCount, likes, commentCount },
 }) => {
-  const likePost = () => {};
-  const commentPost = () => {};
+  const { user } = useContext(AuthContext);
 
   return (
     <Card.Group>
@@ -16,6 +19,7 @@ const PostCard = ({
           <Image
             floated="right"
             size="mini"
+            rounded={true}
             src="https://react.semantic-ui.com/images/avatar/large/molly.png"
           />
           <Card.Header>{username}</Card.Header>
@@ -25,32 +29,9 @@ const PostCard = ({
           <Card.Description>{body}</Card.Description>
         </Card.Content>
         <Card.Content extra>
-          <Button
-            as="div"
-            labelPosition="right"
-            onClick={likePost}
-            size="small"
-          >
-            <Button color="teal" basic>
-              <Icon name="heart" />
-            </Button>
-            <Label basic color="teal" pointing="left">
-              {likeCount}
-            </Label>
-          </Button>
-          <Button
-            as="div"
-            labelPosition="right"
-            onClick={commentPost}
-            size="small"
-          >
-            <Button color="blue" basic>
-              <Icon name="comments" />
-            </Button>
-            <Label basic color="blue" pointing="left">
-              {commentCount}
-            </Label>
-          </Button>
+          <LikeButton user={user} post={{ id, likes, likeCount }} />
+          <CommentsButton post={{ commentCount, id }} />
+          {user?.username === username && <DeleteButton postId={id} />}
         </Card.Content>
       </Card>
     </Card.Group>

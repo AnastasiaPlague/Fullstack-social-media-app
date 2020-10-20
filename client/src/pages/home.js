@@ -1,56 +1,52 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useQuery } from "@apollo/client";
-import gql from "graphql-tag";
-import { Grid, Header } from "semantic-ui-react";
-import PostCard from "../components/postcard";
+import { AuthContext } from "../context/auth";
+import { FETCH_POSTS_QUERY } from "../utils/graphql";
+import {
+  Container,
+  Grid,
+  Header,
+  Transition,
+  Divider,
+} from "semantic-ui-react";
+import PostCard from "../components/post-card";
+import PostForm from "../components/post-form";
 
 const Home = () => {
   const { loading, data } = useQuery(FETCH_POSTS_QUERY);
+  const { user } = useContext(AuthContext);
 
   return (
-    <div className="">
+    <Container>
       <Header as="h1" textAlign="center">
         Recent Posts
       </Header>
       <Grid columns={3}>
+        {user && (
+          <Grid.Column>
+            <PostForm />
+          </Grid.Column>
+        )}
         {loading ? (
           <h1>Loading posts</h1>
         ) : (
           <Grid.Row>
-            {data.getPosts &&
-              data.getPosts.map((post) => {
-                return (
-                  <Grid.Column key={post.id} style={{ marginBotom: "20px" }}>
-                    <PostCard post={post} />
-                  </Grid.Column>
-                );
-              })}
+            <Transition.Group duration={500}>
+              {data.getPosts &&
+                data.getPosts.map((post) => {
+                  return (
+                    <Grid.Column key={post.id}>
+                      <PostCard post={post} />
+                      <Divider hidden />
+                    </Grid.Column>
+                  );
+                })}
+            </Transition.Group>
           </Grid.Row>
         )}
       </Grid>
-    </div>
+    </Container>
   );
 };
-
-const FETCH_POSTS_QUERY = gql`
-  {
-    getPosts {
-      id
-      body
-      comments {
-        id
-        username
-        body
-      }
-      createdAt
-      username
-      likeCount
-      likes {
-        username
-      }
-      commentCount
-    }
-  }
-`;
 
 export default Home;

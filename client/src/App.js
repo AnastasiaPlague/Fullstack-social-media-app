@@ -6,9 +6,10 @@ import Menu from "./components/menu";
 import Home from "./pages/home";
 import Login from "./pages/login";
 import Register from "./pages/register";
+import AuthRoute from "./utils/auth-route";
+import SinglePost from "./pages/single-post";
 import "semantic-ui-css/semantic.min.css";
 import "./App.css";
-import AuthRoute from "./utils/auth-route";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route exact path="/" component={Home} />
           <AuthRoute exact path="/login" component={Login} />
           <AuthRoute exact path="/register" component={Register} />
+          <Route exact path="/posts/:postId" component={SinglePost} />
         </Container>
       </Router>
     </AuthProvider>
