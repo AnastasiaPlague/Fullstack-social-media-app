@@ -16,9 +16,7 @@ if (userToken) {
   }
 }
 
-const AuthContext = createContext({
-  user: null,
-});
+const AuthContext = createContext({ user: null });
 
 const authReducer = (state, action) => {
   switch (action.type) {

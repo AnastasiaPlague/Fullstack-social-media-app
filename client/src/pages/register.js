@@ -19,7 +19,7 @@ const Register = () => {
   });
 
   const [addUser, { loading }] = useMutation(REGISTER_USER, {
-    update(proxy, { data: { login: userData } }) {
+    update(proxy, { data: { register: userData } }) {
       context.login(userData);
       history.push("/");
     },

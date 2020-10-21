@@ -21,7 +21,7 @@ const Home = () => {
       <Header as="h1" textAlign="center">
         Recent Posts
       </Header>
-      <Grid columns={3}>
+      <Grid columns={4} stackable doubling>
         {user && (
           <Grid.Column>
             <PostForm />
