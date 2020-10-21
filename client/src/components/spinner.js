@@ -1,16 +1,26 @@
 import React from "react";
-import { Dimmer, Image, Loader, Segment } from "semantic-ui-react";
+import { Dimmer, Grid, Image, Loader, Segment } from "semantic-ui-react";
 
-const Spinner = () => {
-  return (
-    <div>
+const Spinner = ({ size }) => {
+  return !size ? (
+    <Segment>
+      <Dimmer active inverted>
+        <Loader inverted>Loading</Loader>
+      </Dimmer>
+      <Image src="https://react.semantic-ui.com/images/wireframe/short-paragraph.png" />
+    </Segment>
+  ) : (
+    <Grid.Row centered>
       <Segment>
         <Dimmer active inverted>
-          <Loader inverted>Loading</Loader>
+          <Loader size="big">Loading</Loader>
         </Dimmer>
+
+        <Image src="https://react.semantic-ui.com/images/wireframe/short-paragraph.png" />
+        <Image src="https://react.semantic-ui.com/images/wireframe/short-paragraph.png" />
         <Image src="https://react.semantic-ui.com/images/wireframe/short-paragraph.png" />
       </Segment>
-    </div>
+    </Grid.Row>
   );
 };
 

@@ -11,6 +11,7 @@ import {
 } from "semantic-ui-react";
 import PostCard from "../components/post-card";
 import PostForm from "../components/post-form";
+import Spinner from "../components/spinner";
 
 const Home = () => {
   const { loading, data } = useQuery(FETCH_POSTS_QUERY);
@@ -28,7 +29,7 @@ const Home = () => {
           </Grid.Column>
         )}
         {loading ? (
-          <h1>Loading posts</h1>
+          <Spinner size="large" />
         ) : (
           <Grid.Row>
             <Transition.Group duration={500}>
